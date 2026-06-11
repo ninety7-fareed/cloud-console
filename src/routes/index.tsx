@@ -1,29 +1,43 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
+import { Toaster } from "@/components/ui/sonner";
+import { MatrixBackground } from "@/components/portfolio/terminal";
+import { Nav } from "@/components/portfolio/nav";
+import { Hero } from "@/components/portfolio/hero";
+import { About, Skills } from "@/components/portfolio/about-skills";
+import { Projects } from "@/components/portfolio/projects";
+import { Experience, Certifications } from "@/components/portfolio/experience-certs";
+import { Contact, Footer } from "@/components/portfolio/contact-footer";
+import { CommandPalette } from "@/components/portfolio/command-palette";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Your App" },
-      { name: "description", content: "Replace this with a one-sentence description of your app." },
-      { property: "og:title", content: "Your App" },
-      { property: "og:description", content: "Replace this with a one-sentence description of your app." },
+      { title: "Mohammed-Fareed Ekisola — Cloud & Systems Engineer" },
+      { name: "description", content: "Terminal-inspired portfolio for a Cloud Engineer, Systems Analyst, and Azure Administrator based in Houston, TX." },
+      { property: "og:title", content: "Mohammed-Fareed Ekisola — Cloud & Systems Engineer" },
+      { property: "og:description", content: "Cloud · Systems · Azure · Terraform · Automation. Explore my workstation." },
     ],
   }),
-  component: Index,
+  component: Portfolio,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
+function Portfolio() {
+  const [paletteOpen, setPaletteOpen] = useState(false);
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
+    <main className="relative min-h-screen text-foreground">
+      <MatrixBackground />
+      <Nav onOpenPalette={() => setPaletteOpen(true)} />
+      <Hero />
+      <About />
+      <Skills />
+      <Projects />
+      <Experience />
+      <Certifications />
+      <Contact />
+      <Footer />
+      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+      <Toaster theme="dark" />
+    </main>
   );
 }
