@@ -80,7 +80,7 @@ export function TerminalChrome({
         <span className="size-3 rounded-full bg-[oklch(0.78_0.2_145)]" aria-hidden />
         <div className="mx-auto font-mono text-xs text-muted-foreground select-none">{title}</div>
       </div>
-      <div className="font-mono text-sm md:text-[15px] leading-relaxed p-5 md:p-7">{children}</div>
+      <div className="font-mono text-sm md:text-[15px] leading-[1.6] p-5 md:p-7">{children}</div>
     </div>
   );
 }
@@ -98,7 +98,9 @@ export function Prompt({ user = "fareed", host = "cloud", cwd = "~" }: { user?: 
 
 export function Cursor() {
   return (
-    <span className="inline-block w-[0.6ch] h-[1.05em] translate-y-[2px] bg-[color:var(--color-neon-green)] animate-blink ml-0.5" />
+    <span aria-hidden className="terminal-cursor">
+      ▋
+    </span>
   );
 }
 
@@ -148,19 +150,30 @@ export function TypeSequence({
     }
   }, [currentLine, currentChar, lines, speed, onDone]);
 
+  const isComplete = currentLine >= lines.length;
+
   return (
     <div className="space-y-1">
       {rendered.map((text, i) => {
         const meta = lines[i];
         const isTyping = i === currentLine;
         return (
-          <div key={i} className={`whitespace-pre-wrap break-words ${meta?.className ?? ""}`}>
+          <div
+            key={i}
+            className={`whitespace-pre-wrap break-words leading-[1.6] ${meta?.className ?? ""}`}
+          >
             {meta?.prompt && <Prompt />}
             <span>{text}</span>
             {isTyping && <Cursor />}
           </div>
         );
       })}
+      {isComplete && (
+        <div className="leading-[1.6]">
+          <Prompt />
+          <Cursor />
+        </div>
+      )}
     </div>
   );
 }

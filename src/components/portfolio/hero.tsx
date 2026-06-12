@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Download, Mail, FolderGit2, ArrowRight } from "lucide-react";
-import { TerminalChrome, TypeSequence, Prompt } from "./terminal";
+import { TerminalChrome, TypeSequence } from "./terminal";
 
 export function Hero() {
   const [showCTAs, setShowCTAs] = useState(false);
@@ -11,12 +11,12 @@ export function Hero() {
     { text: "Cloud Engineer · Systems Analyst · Azure Administrator", className: "text-muted-foreground", delay: 380 },
     { text: "", delay: 80 },
     { text: "cat skills.txt", prompt: true, delay: 250 },
-    { text: "Azure  Terraform  Windows Server  Microsoft 365", className: "text-[color:var(--color-neon-cyan)]", delay: 60 },
-    { text: "Networking  PowerShell  Python  Linux", className: "text-[color:var(--color-neon-cyan)]", delay: 350 },
+    { text: "Azure · AWS · Terraform · Windows Server · Microsoft 365 · Cybersecurity", className: "text-[color:var(--color-neon-cyan)]", delay: 60 },
+    { text: "Networking · AI · PowerShell · Python · Linux", className: "text-[color:var(--color-neon-cyan)]", delay: 350 },
     { text: "", delay: 60 },
     { text: "./show_projects.sh", prompt: true, delay: 250 },
     { text: "› Loading projects...", className: "text-muted-foreground", delay: 700 },
-    { text: "› Ready. 5 projects indexed.", className: "text-[color:var(--color-neon-green)]", delay: 200 },
+    { text: "› Ready. 6 projects indexed.", className: "text-[color:var(--color-neon-green)]", delay: 200 },
   ];
 
   return (
@@ -35,14 +35,6 @@ export function Hero() {
 
         <TerminalChrome title="fareed@cloud: ~ — zsh">
           <TypeSequence lines={lines} onDone={() => setShowCTAs(true)} />
-          {showCTAs && (
-            <div className="mt-2">
-              <div>
-                <Prompt />
-                <span className="text-muted-foreground">_</span>
-              </div>
-            </div>
-          )}
         </TerminalChrome>
 
         <div
@@ -76,7 +68,7 @@ export function Hero() {
 
         <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3 max-w-3xl mx-auto font-mono text-xs">
           {[
-            { k: "uptime", v: "3+ yrs" },
+            { k: "uptime", v: "4+ yrs" },
             { k: "region", v: "us-south" },
             { k: "stack", v: "azure · terraform" },
             { k: "status", v: "available" },

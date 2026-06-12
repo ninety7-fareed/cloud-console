@@ -54,8 +54,8 @@ export function CommandPalette({
         <CommandSeparator />
         <CommandGroup heading="Actions">
           <Item icon={Download} label="Download resume" onSelect={() => window.open("/resume.pdf", "_blank")} />
-          <Item icon={Github} label="Open GitHub" onSelect={() => window.open("https://github.com", "_blank")} />
-          <Item icon={Linkedin} label="Open LinkedIn" onSelect={() => window.open("https://linkedin.com", "_blank")} />
+          <Item icon={Github} label="Open GitHub" onSelect={() => window.open("https://github.com/ninety7-fareed/", "_blank")} />
+          <Item icon={Linkedin} label="Open LinkedIn" onSelect={() => window.open("https://linkedin.com/in/fareed97", "_blank")} />
         </CommandGroup>
       </CommandList>
     </CommandDialog>

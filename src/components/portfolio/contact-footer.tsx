@@ -77,9 +77,9 @@ export function Contact() {
           </div>
 
           <aside className="lg:col-span-2 grid gap-3 font-mono text-sm">
-            <ContactRow icon={Mail} label="email" value="fareed@example.com" href="mailto:fareed@example.com" />
-            <ContactRow icon={Github} label="github" value="@fareed" href="https://github.com" />
-            <ContactRow icon={Linkedin} label="linkedin" value="/in/fareed" href="https://linkedin.com" />
+            <ContactRow icon={Mail} label="email" value="fareedekisola@outlook.com" href="mailto:fareedekisola@outlook.com" />
+            <ContactRow icon={Github} label="github" value="@fareed" href="https://github.com/ninety7-fareed/" />
+            <ContactRow icon={Linkedin} label="linkedin" value="/in/fareed" href="https://linkedin.com/in/fareed97/" />
             <ContactRow icon={MapPin} label="location" value="Houston, TX" />
             <div className="rounded-lg border border-[color:var(--color-border)] bg-[oklch(0.16_0.025_250/0.6)] p-4">
               <div className="text-muted-foreground text-xs">availability</div>

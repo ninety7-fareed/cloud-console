@@ -16,6 +16,21 @@ type Project = {
 
 const projects: Project[] = [
   {
+    id: "parked-find-my-car",
+    name: "parked-find-my-car",
+    tagline: "iOS — save your parking spot & navigate back",
+    description:
+      "Parked helps you remember where you parked with one tap. Save your spot instantly, navigate back offline, and optionally attach photo evidence and parking history with Pro.",
+    tech: ["Swift", "SwiftUI", "Core Location", "MapKit"],
+    demo: "https://apps.apple.com/us/app/parked-find-my-car/id6758293180",
+    highlights: [
+      "One-tap parking spot save & return navigation",
+      "Fully offline — all data stored locally on device",
+      "Photo evidence & parking history (Pro)",
+      "Privacy-first: no data collection",
+    ],
+  },
+  {
     id: "terraform-azure-static-site",
     name: "terraform-azure-static-site",
     tagline: "IaC — Static site on Azure Storage + CDN",
@@ -41,25 +56,25 @@ const projects: Project[] = [
     highlights: ["Hub-and-spoke topology", "NSG flow logs to Log Analytics", "Bicep + Terraform variants"],
   },
   {
-    id: "active-directory-home-lab",
-    name: "active-directory-home-lab",
-    tagline: "Windows AD lab with GPOs and PowerShell",
+    id: "hybrid-active-directory-home-lab",
+    name: "hybrid-active-directory-home-lab",
+    tagline: "Hybrid Windows Azure Active Directory lab with GPOs and PowerShell",
     description:
-      "A virtualized AD environment for testing OU design, group policies, and bulk user provisioning with PowerShell scripts.",
-    tech: ["Windows Server", "Active Directory", "PowerShell", "Hyper-V"],
-    github: "https://github.com/",
-    highlights: ["1000+ test users provisioned via script", "Custom GPOs for hardening", "Tiered admin model"],
+      "An Azure Active Directory environment for testing OU design, group policies, and bulk user provisioning with PowerShell scripts.",
+    tech: ["Windows Server", "Azure Active Directory", "PowerShell", "Hyper-V"],
+    github: "https://github.com/ninety7-fareed/MicrosoftEntraConnectSync/",
+    highlights: ["Hybrid Azure Active Directory", "Custom GPOs for hardening", "Tiered admin model"],
   },
   {
-    id: "certification-quiz-app",
-    name: "certification-quiz-app",
-    tagline: "Web app to practice Azure & CompTIA exams",
+    id: "campaign-live",
+    name: "campaign-live",
+    tagline: "Live fundraising tool for events",
     description:
-      "A study companion that serves randomized question sets, tracks streaks, and surfaces weak topics from past attempts.",
+      "Launched campaign.live (joincampaign.live) - a live event fundraising platform where attendees scan a QR code to donate via Apple Pay, Google Pay, or card, with donations displayed in real time on a big screen.",
     tech: ["React", "TypeScript", "Tailwind", "Supabase"],
     github: "https://github.com/",
-    demo: "https://example.com",
-    highlights: ["Spaced-repetition queue", "Per-domain analytics", "Offline-first PWA"],
+    demo: "https://joincampaign.live/",
+    highlights: ["Live Event Fundraising", "Real-Time Display", "QR Code Donations", "Apple Pay / Google Pay / Stripe"],
   },
   {
     id: "quickpad-ai",

@@ -1,8 +1,22 @@
+import { useMemo, useState } from "react";
 import { SectionTitle } from "./about-skills";
 import { Award, CheckCircle2, ExternalLink, ShieldCheck } from "lucide-react";
 
-const logs = [
+type SortMode = "relevance" | "newest" | "oldest";
+
+type LogEntry = {
+  id: string;
+  year: string;
+  level: string;
+  tag: string;
+  title: string;
+  body: string;
+  relevance: number;
+};
+
+const logSource = [
   {
+    id: "systems-analyst-msp",
     year: "2026",
     level: "INFO",
     tag: "career",
@@ -10,20 +24,31 @@ const logs = [
     body: "Supporting enterprise clients across Microsoft 365, Azure, Intune, and networking; on-call rotation and project work.",
   },
   {
-    year: "2025",
+    id: "azure-administrator-az-104",
+    year: "2024",
     level: "OK",
     tag: "cert",
     title: "Azure Administrator (AZ-104) — Certified",
     body: "Earned AZ-104 with focus on identity, networking, and governance.",
   },
   {
+    id: "aws-solutions-architect-associate",
+    year: "2026",
+    level: "OK",
+    tag: "cert",
+    title: "AWS Solutions Architect Associate (AWS-SA-003) — Certified",
+    body: "Earned AWS-SA-003 with focus on architecture, security, and cost optimization.",
+  },
+  {
+    id: "bs-computer-information-systems",
     year: "2025",
     level: "INFO",
     tag: "edu",
-    title: "B.S. Computer Information Systems — In progress",
+    title: "B.S. Computer Information Systems",
     body: "University of Houston. Coursework: networking, databases, secure systems.",
   },
   {
+    id: "associate-degree",
     year: "2024",
     level: "OK",
     tag: "edu",
@@ -31,6 +56,7 @@ const logs = [
     body: "Foundations in systems administration and computer science.",
   },
   {
+    id: "comptia-a-plus",
     year: "2024",
     level: "OK",
     tag: "cert",
@@ -38,14 +64,39 @@ const logs = [
     body: "Hardware, OS troubleshooting, mobile, and security fundamentals.",
   },
   {
+    id: "azure-ad-home-labs",
     year: "2023",
     level: "INFO",
     tag: "lab",
     title: "Built Azure & Active Directory home labs",
     body: "Self-directed labs to deepen hands-on experience with hybrid identity and networking.",
   },
+] as const;
+
+const logs: LogEntry[] = logSource.map((log, relevance) => ({ ...log, relevance }));
+
+const sortOptions: { value: SortMode; label: string }[] = [
+  { value: "relevance", label: "relevance" },
+  { value: "newest", label: "newest" },
+  { value: "oldest", label: "oldest" },
 ];
 
+function sortLogs(entries: LogEntry[], mode: SortMode): LogEntry[] {
+  const copy = [...entries];
+  if (mode === "newest") {
+    return copy.sort((a, b) => Number(b.year) - Number(a.year) || a.relevance - b.relevance);
+  }
+  if (mode === "oldest") {
+    return copy.sort((a, b) => Number(a.year) - Number(b.year) || a.relevance - b.relevance);
+  }
+  return copy.sort((a, b) => a.relevance - b.relevance);
+}
+
+const sortSubtext: Record<SortMode, string> = {
+  relevance: "// sorted by career impact, default order",
+  newest: "// sorted by year, newest first",
+  oldest: "// sorted by year, oldest first",
+};
 const levelColor: Record<string, string> = {
   INFO: "var(--color-neon-cyan)",
   OK: "var(--color-neon-green)",
@@ -53,15 +104,36 @@ const levelColor: Record<string, string> = {
 };
 
 export function Experience() {
+  const [sort, setSort] = useState<SortMode>("relevance");
+  const sortedLogs = useMemo(() => sortLogs(logs, sort), [sort]);
+
   return (
     <section id="experience" className="px-5 md:px-8 py-20 md:py-28">
       <div className="mx-auto max-w-5xl">
-        <SectionTitle cmd="tail -f /var/log/career.log" sub="// recent system events, newest first" />
+        <SectionTitle cmd="tail -f /var/log/career.log" sub={sortSubtext[sort]} />
+        <div className="mb-4 flex flex-wrap items-center gap-2 font-mono text-xs">
+          <span className="text-muted-foreground">--sort</span>
+          {sortOptions.map((option) => (
+            <button
+              key={option.value}
+              type="button"
+              onClick={() => setSort(option.value)}
+              aria-pressed={sort === option.value}
+              className={`rounded-md border px-2.5 py-1 transition-colors ${
+                sort === option.value
+                  ? "border-[color:var(--color-neon-green)]/50 bg-[color:var(--color-neon-green)]/10 text-[color:var(--color-neon-green)]"
+                  : "border-[color:var(--color-border)] text-muted-foreground hover:border-[color:var(--color-neon-cyan)]/40 hover:text-[color:var(--color-neon-cyan)]"
+              }`}
+            >
+              {option.label}
+            </button>
+          ))}
+        </div>
         <div className="rounded-xl border border-[color:var(--color-border)] bg-[oklch(0.11_0.015_250)] overflow-hidden">
           <ul className="divide-y divide-[color:var(--color-border)] font-mono text-sm">
-            {logs.map((l, i) => (
+            {sortedLogs.map((l) => (
               <li
-                key={i}
+                key={l.id}
                 className="group px-4 md:px-6 py-4 flex flex-col md:flex-row md:items-start gap-2 md:gap-5 hover:bg-[oklch(0.85_0.24_145/0.04)] transition-colors"
               >
                 <div className="flex items-center gap-3 md:w-56 shrink-0">
@@ -92,9 +164,17 @@ const certs = [
     code: "AZ-104",
     title: "Microsoft Azure Administrator",
     issuer: "Microsoft",
-    year: "2025",
+    year: "2024",
     color: "var(--color-neon-cyan)",
-    link: "https://learn.microsoft.com/credentials/certifications/azure-administrator/",
+    link: "https://learn.microsoft.com/api/credentials/share/en-us/mekisola/42C951AD560EF4DB?sharingId=47271D0C36467DD2",
+  },
+  {
+    code: "AWS-SA-003",
+    title: "AWS Solutions Architect Associate",
+    issuer: "AWS",
+    year: "2026",
+    color: "var(--color-neon-cyan)",
+    link: "https://www.credly.com/badges/040e3d60-2534-47ff-8905-86c130b69775/public_url",
   },
   {
     code: "AZ-900",
@@ -102,7 +182,7 @@ const certs = [
     issuer: "Microsoft",
     year: "2024",
     color: "var(--color-neon-cyan)",
-    link: "https://learn.microsoft.com/credentials/certifications/azure-fundamentals/",
+    link: "https://learn.microsoft.com/api/credentials/share/en-us/mekisola/9B7647786984FE3D?sharingId=47271D0C36467DD2",
   },
   {
     code: "A+",

@@ -1,5 +1,5 @@
 import { TerminalChrome, Prompt } from "./terminal";
-import { Cloud, Server, Network, Shield, Workflow, Cpu, Database, Box } from "lucide-react";
+import { Cloud, Server, Network, Shield, Workflow, Cpu, Headphones, Box } from "lucide-react";
 
 export function SectionTitle({ cmd, sub }: { cmd: string; sub?: string }) {
   return (
@@ -24,16 +24,23 @@ export function About() {
             <TerminalChrome title="~/about/about.txt">
               <div className="space-y-4 text-foreground/90">
                 <p>
-                  <span className="text-[color:var(--color-neon-green)]">$</span> Computer
-                  Information Systems student at the{" "}
+                  <span className="text-[color:var(--color-neon-green)]">$</span>{" "}
+                  <span className="text-[color:var(--color-neon-green)]">Systems Engineer</span>{" "}
+                  with a background in Computer Information Systems from the{" "}
                   <span className="text-[color:var(--color-neon-cyan)]">University of Houston</span>
-                  , with hands-on experience supporting enterprise environments as a{" "}
-                  <span className="text-[color:var(--color-neon-green)]">Systems Analyst</span>.
+                  , owning cloud and infrastructure projects across Azure, M365, and Intune.
                 </p>
                 <p className="text-muted-foreground">
                   Passionate about cloud infrastructure, automation, networking, and
                   cybersecurity — I build reliable systems with Azure, Terraform, and a
                   command line that always feels like home.
+                </p>
+                <p className="text-muted-foreground">
+                  In MSP work, strong technical skills only go so far —{" "}
+                  <span className="text-foreground/90">customer experience</span> is what
+                  turns a resolved ticket into a client who trusts you. I communicate clearly,
+                  follow through, and treat every interaction like it matters, because for the
+                  person on the other end, it does.
                 </p>
                 <p className="text-muted-foreground">
                   When I'm not in a terminal, I'm spinning up labs, breaking things on
@@ -47,7 +54,8 @@ export function About() {
           <div className="lg:col-span-2 grid gap-3 font-mono text-sm">
             {[
               { icon: Cloud, k: "focus", v: "Cloud Infrastructure" },
-              { icon: Server, k: "role", v: "Systems Analyst, MSP" },
+              { icon: Server, k: "role", v: "Systems Engineer, MSP" },
+              { icon: Headphones, k: "cx", v: "Customer Experience" },
               { icon: Cpu, k: "edu", v: "B.S. CIS — U. of Houston" },
               { icon: Network, k: "loc", v: "Houston, TX" },
             ].map(({ icon: Icon, k, v }) => (
