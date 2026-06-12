@@ -12,6 +12,14 @@ export default defineConfig({
     tanstackStart({
       // Redirect TanStack Start's bundled server entry to src/server.ts (our SSR error wrapper).
       server: { entry: "server" },
+      // Static shell for Azure Blob static website hosting ($web container).
+      spa: {
+        enabled: true,
+        prerender: {
+          outputPath: "/index.html",
+          crawlLinks: true,
+        },
+      },
     }),
     nitro(),
     react(),
