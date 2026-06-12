@@ -31,18 +31,18 @@ const projects: Project[] = [
     ],
   },
   {
-    id: "terraform-azure-static-site",
-    name: "terraform-azure-static-site",
-    tagline: "IaC — Static site on Azure Storage + CDN",
+    id: "cloud-console",
+    name: "cloud-console",
+    tagline: "IaC — this portfolio on Azure Blob static hosting",
     description:
-      "Provisions an end-to-end static website on Azure using Terraform: resource group, storage account with static website enabled, custom domain, and Azure CDN with HTTPS.",
-    tech: ["Terraform", "Azure", "Storage", "CDN", "GitHub Actions"],
-    github: "https://github.com/",
-    demo: "https://example.com",
+      "The site you're browsing: a TanStack Start portfolio built with Bun, deployed to Azure Storage static website hosting. Terraform provisions the resource group, storage account, and static site config; GitHub Actions builds the SPA shell and uploads to the $web container on every push to main.",
+    tech: ["Terraform", "Azure Storage", "GitHub Actions", "TanStack Start", "Bun"],
+    github: "https://github.com/ninety7-fareed/cloud-console",
+    demo: "https://fareedportfolio1234597.z13.web.core.windows.net/",
     highlights: [
-      "Reusable Terraform modules with remote state",
-      "CI/CD pipeline pushes content + plan/apply on PR",
-      "HTTPS via Azure-managed certificates",
+      "Terraform: rg-portfolio, storage account, azurerm_storage_account_static_website",
+      "CI/CD: Bun build → prerendered .output/public → az storage blob upload-batch",
+      "Azure AD service principal with Storage Blob Data Contributor for deploy auth",
     ],
   },
   {
