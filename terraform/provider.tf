@@ -9,4 +9,8 @@ terraform {
 
 provider "azurerm" {
   features {}
+
+  # Avoid registering every Azure RP on plan/apply (slow; easy to interrupt).
+  # Storage + Resource Group only need core providers.
+  resource_provider_registrations = "core"
 }
