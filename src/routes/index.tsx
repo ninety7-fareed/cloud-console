@@ -9,6 +9,7 @@ import { Projects } from "@/components/portfolio/projects";
 import { Experience, Certifications } from "@/components/portfolio/experience-certs";
 import { Contact, Footer } from "@/components/portfolio/contact-footer";
 import { CommandPalette } from "@/components/portfolio/command-palette";
+import { FareedAi } from "@/components/portfolio/fareed-ai";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -37,6 +38,7 @@ function Portfolio() {
       <Contact />
       <Footer />
       <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
+      <FareedAi />
       <Toaster theme="dark" />
     </main>
   );
