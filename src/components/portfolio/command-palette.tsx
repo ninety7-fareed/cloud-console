@@ -11,6 +11,7 @@ import {
 import {
   Home, User, Cpu, FolderGit2, Activity, ShieldCheck, Mail, Github, Linkedin, Download,
 } from "lucide-react";
+import { RESUME_URL } from "@/lib/resume";
 
 export function CommandPalette({
   open, onOpenChange,
@@ -53,7 +54,7 @@ export function CommandPalette({
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Actions">
-          <Item icon={Download} label="Download resume" onSelect={() => window.open("/resume.pdf", "_blank")} />
+          <Item icon={Download} label="Download resume" onSelect={() => window.open(RESUME_URL, "_blank")} />
           <Item icon={Github} label="Open GitHub" onSelect={() => window.open("https://github.com/ninety7-fareed/", "_blank")} />
           <Item icon={Linkedin} label="Open LinkedIn" onSelect={() => window.open("https://linkedin.com/in/fareed97", "_blank")} />
         </CommandGroup>

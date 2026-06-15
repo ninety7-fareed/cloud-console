@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Download, Mail, FolderGit2, ArrowRight } from "lucide-react";
+import { RESUME_URL } from "@/lib/resume";
 import { TerminalChrome, TypeSequence } from "./terminal";
 
 export function Hero() {
@@ -51,7 +52,8 @@ export function Hero() {
             <ArrowRight className="size-4 transition-transform group-hover:translate-x-0.5" />
           </a>
           <a
-            href="/resume.pdf"
+            href={RESUME_URL}
+            download
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-md font-mono text-sm border border-[color:var(--color-neon-cyan)]/40 text-[color:var(--color-neon-cyan)] hover:bg-[color:var(--color-neon-cyan)]/10 transition-colors"
           >
             <Download className="size-4" />

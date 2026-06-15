@@ -6,6 +6,7 @@ import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 
 export default defineConfig({
+  publicDir: "src/public",
   plugins: [
     tsconfigPaths(),
     tailwindcss(),
@@ -21,7 +22,9 @@ export default defineConfig({
         },
       },
     }),
-    nitro(),
+    nitro({
+      publicAssets: [{ dir: "src/public", baseURL: "/" }],
+    }),
     react(),
   ],
   resolve: {
