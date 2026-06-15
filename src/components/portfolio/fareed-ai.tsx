@@ -4,12 +4,22 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
 const CHAT_API = "https://ydx8h5m055.execute-api.us-east-1.amazonaws.com/prod/chat";
+const MAX_QUESTION_LENGTH = 500;
 
 type Message = {
   id: string;
   role: "user" | "assistant";
   content: string;
 };
+
+class FareedAiError extends Error {
+  status?: number;
+
+  constructor(message: string, status?: number) {
+    super(message);
+    this.status = status;
+  }
+}
 
 const STARTERS = [
   "Tell me about Fareed",
@@ -24,13 +34,17 @@ async function askFareedAi(question: string): Promise<string> {
     body: JSON.stringify({ question }),
   });
 
+  if (res.status === 429) {
+    throw new FareedAiError("Too many requests. Please try again in a few minutes.", 429);
+  }
+
   if (!res.ok) {
-    throw new Error(`Request failed (${res.status})`);
+    throw new FareedAiError(`Request failed (${res.status})`, res.status);
   }
 
   const data = (await res.json()) as { success?: boolean; answer?: string };
   if (!data.answer) {
-    throw new Error("No response from Fareed AI");
+    throw new FareedAiError("No response from Fareed AI");
   }
 
   return data.answer;
@@ -77,6 +91,7 @@ export function FareedAi() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: "welcome",
@@ -102,6 +117,13 @@ export function FareedAi() {
     const question = text.trim();
     if (!question || loading) return;
 
+    if (question.length > MAX_QUESTION_LENGTH) {
+      setError(`Please keep your question under ${MAX_QUESTION_LENGTH} characters.`);
+      return;
+    }
+
+    setError(null);
+
     const userMsg: Message = { id: crypto.randomUUID(), role: "user", content: question };
     setMessages((prev) => [...prev, userMsg]);
     setInput("");
@@ -113,19 +135,18 @@ export function FareedAi() {
         ...prev,
         { id: crypto.randomUUID(), role: "assistant", content: answer },
       ]);
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        {
-          id: crypto.randomUUID(),
-          role: "assistant",
-          content: "Sorry — I couldn't reach the server. Try again in a moment.",
-        },
-      ]);
+    } catch (err) {
+      if (err instanceof FareedAiError && err.status === 429) {
+        setError("Too many requests. Please try again in a few minutes.");
+      } else {
+        setError("Sorry — I couldn't reach the server. Try again in a moment.");
+      }
     } finally {
       setLoading(false);
     }
   };
+
+  const inputTooLong = input.trim().length > MAX_QUESTION_LENGTH;
 
   return (
     <div className="fixed bottom-5 right-5 z-50 flex flex-col items-end gap-3">
@@ -175,28 +196,49 @@ export function FareedAi() {
           </div>
 
           <form
-            className="border-t border-[color:var(--color-border)] p-2.5 flex gap-2 shrink-0"
+            className="border-t border-[color:var(--color-border)] p-2.5 shrink-0 space-y-2"
             onSubmit={(e) => {
               e.preventDefault();
               void send(input);
             }}
           >
-            <input
-              ref={inputRef}
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              placeholder="Ask about Fareed…"
-              disabled={loading}
-              className="flex-1 min-w-0 rounded-md border border-[color:var(--color-border)] bg-[oklch(0.11_0.015_250)] px-3 py-2 text-xs font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[color:var(--color-neon-green)]/50 disabled:opacity-50"
-            />
-            <Button
-              type="submit"
-              size="icon"
-              disabled={loading || !input.trim()}
-              className="shrink-0 size-9 bg-[color:var(--color-neon-green)] text-[color:var(--color-primary-foreground)] hover:bg-[color:var(--color-neon-green)]/90 shadow-glow-green"
-            >
-              <Send className="size-4" />
-            </Button>
+            <div className="flex gap-2">
+              <input
+                ref={inputRef}
+                value={input}
+                onChange={(e) => {
+                  setInput(e.target.value);
+                  if (error) setError(null);
+                }}
+                placeholder="Ask about Fareed…"
+                disabled={loading}
+                maxLength={MAX_QUESTION_LENGTH + 50}
+                className="flex-1 min-w-0 rounded-md border border-[color:var(--color-border)] bg-[oklch(0.11_0.015_250)] px-3 py-2 text-xs font-mono placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-[color:var(--color-neon-green)]/50 disabled:opacity-50"
+              />
+              <Button
+                type="submit"
+                size="icon"
+                disabled={loading || !input.trim() || inputTooLong}
+                className="shrink-0 size-9 bg-[color:var(--color-neon-green)] text-[color:var(--color-primary-foreground)] hover:bg-[color:var(--color-neon-green)]/90 shadow-glow-green"
+              >
+                <Send className="size-4" />
+              </Button>
+            </div>
+            <div className="flex items-center justify-between gap-2 px-0.5">
+              <p
+                className={cn(
+                  "text-[10px] font-mono",
+                  inputTooLong ? "text-[color:var(--color-destructive)]" : "text-muted-foreground",
+                )}
+              >
+                {input.trim().length}/{MAX_QUESTION_LENGTH}
+              </p>
+              {error && (
+                <p className="text-[10px] font-mono text-[color:var(--color-destructive)] text-right">
+                  {error}
+                </p>
+              )}
+            </div>
           </form>
         </div>
       )}
